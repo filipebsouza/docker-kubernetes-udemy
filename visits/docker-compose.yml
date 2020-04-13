@@ -1,0 +1,14 @@
+# Versão do docker-compose
+version: '3'
+services:
+    redis-server:
+        image: 'redis'
+    node-app:
+        # Valores podem ser always, "no"/'no', on-failure, unless-stopped (Aula 57)
+        restart: on-failure
+        # No diretório atual procure um Dockerfile
+        build: .
+        ports:
+            # localmachine:dentroDoContainer
+            - "8081:8081"
+# Não percisa criar rede, somente a existência de dois serviços no docker-compose basta         
