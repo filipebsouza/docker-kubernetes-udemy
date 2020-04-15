@@ -14,6 +14,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
+      CI: true
       work-dir: ./frontend
   
     strategy:
@@ -23,12 +24,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      # uses: actions/setup-node@v1
-      working-directory: ${{ env.work-dir }}      
-      # with:
-       # node-version: ${{ matrix.node-version }}    
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-      env:
-        CI: true
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}    
+        
+    - name: Install dependencies
+      working-directory: ${{ env.work-dir }}
+      run: |
+        npm install
+    
+    - name: Tests
+      working-directory: ${{ env.work-dir }}
+      run: |
+        npm run test
+    
+    - name: Build
+      working-directory: ${{ env.work-dir }}
+      run: |
+        npm run build --if-present
+        
