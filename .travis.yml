@@ -1,8 +1,8 @@
 sudo: required
-language: generic
 services:
     - docker
-
+    
+language: generic
 before_install:
     - docker build -t filipebsouza/docker-react -f Dockerfile.dev .
 
