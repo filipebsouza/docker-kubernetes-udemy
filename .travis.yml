@@ -4,7 +4,7 @@ services:
     
 language: generic
 before_install:
-    - docker build -t filipebsouza/docker-react -f Dockerfile.dev .
+    - docker build -t filipebsouza/docker-react .
 
 script:
     - docker run -e CI=true filipebsouza/docker-react npm run test -- --coverage
@@ -12,7 +12,8 @@ script:
 deploy:
     provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
-    secret_access_key: $AWS_SECRET_KEY # Variáveis de ambiente no Travis CI
+    secret_access_key: 
+        secure: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
     region: "sa-east-1"
     app: "docker-react"
     env: "DockerReact-env"
