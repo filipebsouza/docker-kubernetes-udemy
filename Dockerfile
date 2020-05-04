@@ -2,10 +2,12 @@ FROM node:alpine as builder
 
 WORKDIR '/app'
 
-COPY package.json .
+COPY ./frontend/package*.json ./
 RUN npm install
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
-COPY . .
+COPY ./frontend ./
 RUN npm run build
 
 FROM nginx:alpine
