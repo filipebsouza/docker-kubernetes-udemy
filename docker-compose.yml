@@ -3,7 +3,7 @@ services:
     web:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.dev
         ports: 
             - '3000:3000'
         # Precisei desse cara no Windows
@@ -15,7 +15,7 @@ services:
     tests:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.dev
         tty: true
         volumes: 
             - /app/node_modules
