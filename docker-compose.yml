@@ -12,13 +12,13 @@ services:
             - /app/node_modules
             # . é o equivalente ao PWD
             - .:/app
-    # tests:
-    #     build:
-    #         context: .
-    #         dockerfile: Dockerfile
-    #     tty: true
-    #     volumes: 
-    #         - /app/node_modules
-    #         # . é o equivalente ao PWD
-    #         - .:/app
-    #     command: ["npm", "run", "test"]
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        tty: true
+        volumes: 
+            - /app/node_modules
+            # . é o equivalente ao PWD
+            - .:/app
+        command: ["npm", "run", "test"]
