@@ -21,5 +21,4 @@ deploy:
     bucket_path: "docker-react" # Na primeira vez na tem nada
     on:
         branch: master
-
 # Para serviços extenos eu uso o IAM (Identity and Access Management) da AWS
