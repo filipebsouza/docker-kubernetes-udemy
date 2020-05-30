@@ -4,21 +4,33 @@ services:
     
 language: generic
 before_install:
-    - docker build -t filipebsouza/docker-react .
+    - docker build -t filipebsouza/react-test -f ./complex/client/Dockerfile.dev ./complex/client
 
-# script:
-#     - docker run -e CI=true filipebsouza/docker-react npm run test
-# Somente em dev, em náo posso rodar o build e depois rodar o teste
+script:
+    - docker run -e CI=true filipebsouza/react-test npm run test
 
-deploy:
-    provider: elasticbeanstalk
-    access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
-    secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
-    region: "sa-east-1"
-    app: "docker-react"
-    env: "DockerReact-env"
-    bucket_name: "elasticbeanstalk-sa-east-1-507454525147" # Esse nome fica no S3
-    bucket_path: "docker-react" # Na primeira vez na tem nada
-    on:
-        branch: master
+after_success:
+    - docker build -t filipebsouza/multi-client ./complex/client
+    - docker build -t filipebsouza/multi-nginx ./complex/nginx
+    - docker build -t filipebsouza/multi-server ./complex/server
+    - docker build -t filipebsouza/multi-worker ./complex/worker
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push then to docker hub
+    - docker push filipebsouza/multi-client
+    - docker push filipebsouza/multi-nginx
+    - docker push filipebsouza/multi-server
+    - docker push filipebsouza/multi-worker    
+
+# deploy:
+#     provider: elasticbeanstalk
+#     access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
+#     secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
+#     region: "sa-east-1"
+#     app: "docker-react"
+#     env: "DockerReact-env"
+#     bucket_name: "elasticbeanstalk-sa-east-1-507454525147" # Esse nome fica no S3
+#     bucket_path: "docker-react" # Na primeira vez na tem nada
+#     on:
+#         branch: master
 # Para serviços extenos eu uso o IAM (Identity and Access Management) da AWS
