@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "filipebsouza/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "filipebsouza/multi-server",
+            "hostname": "api", // Nginx Name Route
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "filipebsouza/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "filipebsouza/multi-nginx",
+            "hostname": "nginx",
+            "essential": true, // Se esse serviço crashar, o resto tb crasha
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"] // Isso é para poder se comunicar com outros serviços
+        }
+    ]
+}
