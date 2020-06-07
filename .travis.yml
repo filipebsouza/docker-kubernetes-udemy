@@ -22,15 +22,16 @@ after_success:
     - docker push filipebsouza/multi-server
     - docker push filipebsouza/multi-worker    
 
-# deploy:
-#     provider: elasticbeanstalk
-#     access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
-#     secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
-#     region: "sa-east-1"
-#     app: "docker-react"
-#     env: "DockerReact-env"
-#     bucket_name: "elasticbeanstalk-sa-east-1-507454525147" # Esse nome fica no S3
-#     bucket_path: "docker-react" # Na primeira vez na tem nada
-#     on:
-#         branch: master
+ deploy:
+    edge: true
+    provider: elasticbeanstalk
+    access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
+    secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
+    region: "sa-east-1"
+    app: "multi-docker"
+    env: "MultiDocker-env"
+    bucket_name: "elasticbeanstalk-sa-east-1-507454525147" # Esse nome fica no S3
+    bucket_path: "docker-multi" # Na primeira vez na tem nada
+    on:
+        branch: master
 # Para serviços extenos eu uso o IAM (Identity and Access Management) da AWS
