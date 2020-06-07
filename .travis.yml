@@ -22,8 +22,7 @@ after_success:
     - docker push filipebsouza/multi-server
     - docker push filipebsouza/multi-worker    
 
- deploy:
-    edge: true
+deploy:
     provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
     secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
