@@ -6,12 +6,12 @@
             "image": "filipebsouza/multi-client",
             "hostname": "client",
             "essential": false,
-            "memory": 128 // Em megabytes
+            "memory": 128
         },
         {
             "name": "server",
             "image": "filipebsouza/multi-server",
-            "hostname": "api", // Nginx Name Route
+            "hostname": "api",
             "essential": false,
             "memory": 128
         },
@@ -26,14 +26,14 @@
             "name": "nginx",
             "image": "filipebsouza/multi-nginx",
             "hostname": "nginx",
-            "essential": true, // Se esse serviço crashar, o resto tb crasha
+            "essential": true,
             "portMappings": [
                 {
                     "hostPort": 80,
                     "containerPort": 80
                 }
             ],
-            "links": ["client", "server"], // Isso é para poder se comunicar com outros serviços
+            "links": ["client", "server"],
             "memory": 128
         }
     ]
