@@ -5,19 +5,22 @@
             "name": "client",
             "image": "filipebsouza/multi-client",
             "hostname": "client",
-            "essential": false
+            "essential": false,
+            "memory": 128 // Em megabytes
         },
         {
             "name": "server",
             "image": "filipebsouza/multi-server",
             "hostname": "api", // Nginx Name Route
-            "essential": false
+            "essential": false,
+            "memory": 128
         },
         {
             "name": "worker",
             "image": "filipebsouza/multi-worker",
             "hostname": "worker",
-            "essential": false
+            "essential": false,
+            "memory": 128
         },
         {
             "name": "nginx",
@@ -30,7 +33,8 @@
                     "containerPort": 80
                 }
             ],
-            "links": ["client", "server"] // Isso é para poder se comunicar com outros serviços
+            "links": ["client", "server"], // Isso é para poder se comunicar com outros serviços
+            "memory": 128
         }
     ]
 }
