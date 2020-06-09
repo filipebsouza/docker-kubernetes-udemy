@@ -9,12 +9,12 @@
     "dev": "nodemon"
   },
   "dependencies": {
-    "express": "4.16.3",
-    "pg": "7.4.3",
-    "redis": "2.8.0",
+    "body-parser": "*",
     "cors": "2.8.4",
+    "express": "4.16.3",
     "nodemon": "1.18.3",
-    "body-parser": "*"
+    "pg": "^8.2.1",
+    "redis": "2.8.0"
   },
   "keywords": [],
   "author": "",
