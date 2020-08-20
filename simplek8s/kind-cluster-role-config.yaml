@@ -1,0 +1,6 @@
+# Authorization Dashboard 1/2
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
