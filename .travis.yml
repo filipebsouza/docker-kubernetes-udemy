@@ -8,7 +8,10 @@ before_install:
     - curl https://sdk.cloud.google.com | bash > /dev/null;
     - source $HOME/google-cloud-sdk/path.bash.inc
     - gcloud components update kubeclt
-    - gcloud auth activate-service-account --key-file service-account.json
+    - gcloud auth activate-service-account --key-file multi-k8s-288016-a54a1bc0a001.json
+    - gcloud config set project multi-k8s-288016
+    - gcloud config set compute/zone us-central1-c	
+    - gcloud container cluster get-credentials multi-k8s
 script:
     - docker run -e CI=true filipebsouza/react-test npm run test
 
