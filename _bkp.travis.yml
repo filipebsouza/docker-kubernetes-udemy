@@ -1,14 +1,11 @@
 sudo: required
 services:
     - docker
-
+    
 language: generic
 before_install:
-    - openssl aes-256-cbc -K $encrypted_91799929af02_key -iv $encrypted_91799929af02_iv -in multi-k8s-288016-a54a1bc0a001.json.enc -out multi-k8s-288016-a54a1bc0a001.json -d
-    - curl https://sdk.cloud.google.com | bash > /dev/null;
-    - source $HOME/google-cloud-sdk/path.bash.inc
-    - gcloud components update kubeclt
-    - gcloud auth activate-service-account --key-file service-account.json
+    - docker build -t filipebsouza/react-test -f ./complex/client/Dockerfile.dev ./complex/client
+
 script:
     - docker run -e CI=true filipebsouza/react-test npm run test
 
@@ -23,7 +20,7 @@ after_success:
     - docker push filipebsouza/multi-client
     - docker push filipebsouza/multi-nginx
     - docker push filipebsouza/multi-server
-    - docker push filipebsouza/multi-worker
+    - docker push filipebsouza/multi-worker    
 
 deploy:
     provider: elasticbeanstalk
