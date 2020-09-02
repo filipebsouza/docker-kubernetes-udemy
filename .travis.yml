@@ -10,8 +10,10 @@ before_install:
     - gcloud components update kubeclt
     - gcloud auth activate-service-account --key-file multi-k8s-288016-a54a1bc0a001.json
     - gcloud config set project multi-k8s-288016
-    - gcloud config set compute/zone us-central1-c	
+    - gcloud config set compute/zone us-central1-c
     - gcloud container cluster get-credentials multi-k8s
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t filipebsouza/multi-client -f ./complex/client/Dockerfile.dev ./complex/client
 script:
     - docker run -e CI=true filipebsouza/react-test npm run test
 
