@@ -1,8 +1,11 @@
 sudo: required
+language: generic
 services:
     - docker
-
-language: generic
+env:
+    global:
+        - SHA=$(git rev-parse HEAD)
+        - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
     - openssl aes-256-cbc -K $encrypted_91799929af02_key -iv $encrypted_91799929af02_iv -in multi-k8s-288016-a54a1bc0a001.json.enc -out multi-k8s-288016-a54a1bc0a001.json -d
     - curl https://sdk.cloud.google.com | bash > /dev/null;
@@ -14,8 +17,15 @@ before_install:
     - gcloud container cluster get-credentials multi-k8s
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker build -t filipebsouza/multi-client -f ./complex/client/Dockerfile.dev ./complex/client
+
 script:
     - docker run -e CI=true filipebsouza/react-test npm run test
+
+deploy:
+    provider: script
+    script: bash ./deploy.sh
+    on:
+        branch: master
 
 after_success:
     - docker build -t filipebsouza/multi-client ./complex/client
@@ -29,16 +39,3 @@ after_success:
     - docker push filipebsouza/multi-nginx
     - docker push filipebsouza/multi-server
     - docker push filipebsouza/multi-worker
-
-deploy:
-    provider: elasticbeanstalk
-    access_key_id: $AWS_ACCESS_KEY # Variáveis de ambiente no Travis CI
-    secret_access_key: "$AWS_SECRET_KEY" # Variáveis de ambiente no Travis CI
-    region: "sa-east-1"
-    app: "multi-docker"
-    env: "MultiDocker-env"
-    bucket_name: "elasticbeanstalk-sa-east-1-507454525147" # Esse nome fica no S3
-    bucket_path: "docker-multi" # Na primeira vez na tem nada
-    on:
-        branch: master
-# Para serviços extenos eu uso o IAM (Identity and Access Management) da AWS
