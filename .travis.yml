@@ -14,7 +14,7 @@ before_install:
     - gcloud -q components update
     - gcloud components install kubectl
     - gcloud components update kubectl
-    - gcloud auth activate-service-account --key-file multi-k8s-288016-a54a1bc0a001.json
+    - gcloud auth activate-service-account --key-file=multi-k8s-288016-a54a1bc0a001.json
     - gcloud config set project multi-k8s-288016
     - gcloud config set compute/zone us-central1-c
     - gcloud container cluster get-credentials multi-k8s
